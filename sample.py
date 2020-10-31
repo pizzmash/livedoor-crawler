@@ -64,7 +64,12 @@ for page in range(1, 301):
 		driver.get(category_url)
 		print("{}にアクセスしました".format(category_url))
 
-		articles = driver.find_elements_by_class_name("articleList")[0].find_elements_by_tag_name("li")
+		articles = driver.find_elements_by_class_name("articleList")
+		if not articles:
+			print("記事の一覧を取得できませんでした\n")
+			time.sleep(sleep_time)
+			continue
+		articles = articles[0].find_elements_by_tag_name("li")
 		articles = list(map(lambda x: x.find_elements_by_tag_name("a")[0].get_attribute("href"), articles))
 		time.sleep(sleep_time)
 
@@ -80,12 +85,12 @@ for page in range(1, 301):
 			print("{}にアクセスしました".format(article_url))
 			summary_list = driver.find_elements_by_class_name("summaryList")
 			if not summary_list:
-				print("要約が存在しません")
+				print("要約が存在しません\n")
 				time.sleep(sleep_time)
 				continue
 			more_button = driver.find_elements_by_class_name("articleMore")
 			if not more_button:
-				print("本文が削除されています")
+				print("本文が削除されています\n")
 				time.sleep(sleep_time)
 				continue
 			title = driver.find_elements_by_class_name("topicsTtl")[0].text
@@ -100,7 +105,7 @@ for page in range(1, 301):
 			print("{}にアクセスしました".format(more_url))
 			body = driver.find_elements_by_xpath("//span[@itemprop='articleBody']")
 			if not body:
-				print("本文の取得に失敗しました")
+				print("本文の取得に失敗しました\n")
 				time.sleep(sleep_time)
 				continue
 			body = body[0].text
@@ -114,7 +119,7 @@ for page in range(1, 301):
 				body
 			])
 			written += 1
-			print("csvに書き込みました({}件完了)".format(written))
+			print("csvに書き込みました({}件完了)\n".format(written))
 			time.sleep(sleep_time)
 
 f.close()
