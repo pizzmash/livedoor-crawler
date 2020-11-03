@@ -11,20 +11,20 @@ base = "https://news.livedoor.com/topics/category/"
 categories = [
 	"main/",
 	"dom/",
-	# "world/",
-	# "eco/",
-	# "ent/",
-	# "sports/",
+	"world/",
+	"eco/",
+	"ent/",
+	"sports/",
 	# "52/",
 	# "gourmet/",
 	# "love/",
-	# "trend/"
+	"trend/"
 ]
 
 sleep_time = 5
 
 csv_header = [
-	"url",
+	"url", "id",
 	"year", "month", "day", "hour", "minute",
 	"category",
 	"title",
@@ -56,8 +56,6 @@ writer = csv.writer(f)
 writer.writerow(csv_header)
 
 for page in range(1, 301):
-	if page == 3:
-		break
 	params = parse.urlencode({'p': str(page)})
 	for category in categories:
 		category_url = parse.urljoin(base, category) + "?{params}".format(params=params)
@@ -95,9 +93,13 @@ for page in range(1, 301):
 				continue
 			title = driver.find_elements_by_class_name("topicsTtl")[0].text
 			jtime = driver.find_elements_by_class_name("topicsTime")[0].text
-			date = [str(t) for t in parse_time(jtime)]
+			date = [t for t in parse_time(jtime)]
 			summary_list = summary_list[0].find_elements_by_tag_name("li")
 			summary_list = [s.text for s in summary_list]
+			if len(summary_list) != 3:
+				print("要約の数が3文ではありませんでした\n")
+				time.sleep(sleep_time)
+				continue
 			time.sleep(sleep_time)
 
 			more_url = more_button[0].find_elements_by_tag_name("a")[0].get_attribute("href")
@@ -111,9 +113,9 @@ for page in range(1, 301):
 			body = body[0].text
 
 			writer.writerow([
-				article_url,
+				article_url, id,
 				date[0], date[1], date[2], date[3], date[4],
-				category,
+				category[:-1],
 				title,
 				summary_list[0], summary_list[1], summary_list[2],
 				body
