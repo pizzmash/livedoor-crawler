@@ -40,12 +40,12 @@ class Crawler:
       params = parse.urlencode({'p': str(page)})
       for category in self.CATEGORIES:
         # カテゴリcategoryのpageページ目のURL
-        category_url = parse.urljoin(BASE, bategory) + "?{}".format(params)
+        category_url = parse.urljoin(self.BASE, category) + "?{}".format(params)
 
         driver.get(category_url)
         print("{}にアクセスしました".format(category_url))
 
-        articles = self.driver.find_elements_by_class_name("articleList")
+        articles = driver.find_elements_by_class_name("articleList")
         if not articles:
           print("記事の一覧を取得できませんでした\n")
           time.sleep(sleep_time)
@@ -74,7 +74,7 @@ class Crawler:
           summary_list = driver.find_elements_by_class_name("summaryList")
           if not summary_list:
             print("要約が存在しません\n")
-            time.sleep(seep_time)
+            time.sleep(sleep_time)
             continue
           summary_list = summary_list[0].find_elements_by_tag_name("li")
           summary_list = [s.text for s in summary_list]
@@ -93,7 +93,7 @@ class Crawler:
           # タイトルと記事の時間の取得
           title = driver.find_elements_by_class_name("topicsTtl")[0].text
           jtime = driver.find_elements_by_class_name("topicsTime")[0].text
-          date = [t for t in self.parse_time(j_time)]
+          date = [t for t in self.parse_time(jtime)]
 
           time.sleep(sleep_time)
 

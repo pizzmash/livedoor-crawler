@@ -14,13 +14,13 @@ csv_header = [
 def main():
 	crawler = Crawler(docker=True)
 
-	f = open('./sample.csv', 'w')
+	f = open('./test.csv', 'w')
 	writer = csv.writer(f)
 	writer.writerow(csv_header)
 
-	for article in crawler.crawl(sleep_time=5):
+	for i, article in enumerate(crawler.crawl(sleep_time=5)):
 		writer.writerow(article)
-
+		print("csvに書き込みました({}件完了)\n".format(i+1))
 	f.close()
 
 
