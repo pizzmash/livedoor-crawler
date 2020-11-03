@@ -93,7 +93,7 @@ class Crawler:
           # タイトルと記事の時間の取得
           title = driver.find_elements_by_class_name("topicsTtl")[0].text
           jtime = driver.find_elements_by_class_name("topicsTime")[0].text
-          date = [t for t in parse_time(j_time)]
+          date = [t for t in self.parse_time(j_time)]
 
           time.sleep(sleep_time)
 
