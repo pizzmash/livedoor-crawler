@@ -1,6 +1,6 @@
 import time
 import os
-import re
+from datetime import datetime
 from selenium import webdriver
 from urllib import parse
 
@@ -28,9 +28,8 @@ class Crawler:
       self.options.add_argument('--disable-dev-shm-usage')
 
   def parse_time(self, jtime):
-    pattern = r'(\d*)年(\d*)月(\d*)日 (\d*)時(\d*)分'
-    m = re.match(pattern, jtime)
-    return m.groups()
+    pattern = '%Y年%m月%d日 %H時%M分'
+    return datetime.strptime(jtime, pattern)
 
   def crawl(self, sleep_time=5):
     driver = webdriver.Chrome(options=self.options)
@@ -93,7 +92,7 @@ class Crawler:
           # タイトルと記事の時間の取得
           title = driver.find_elements_by_class_name("topicsTtl")[0].text
           jtime = driver.find_elements_by_class_name("topicsTime")[0].text
-          date = [t for t in self.parse_time(jtime)]
+          date = self.parse_time(jtime)
 
           time.sleep(sleep_time)
 
@@ -111,7 +110,7 @@ class Crawler:
           body = body[0].text
 
           yield [article_url, article_id,
-                 date[0], date[1], date[2], date[3], date[4],
+                 date.year, date.month, date.day, date.hour, date.minute,
                  category[:-1],
                  title,
                  summary_list[0], summary_list[1], summary_list[2],

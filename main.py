@@ -14,7 +14,7 @@ def main():
     reader = Reader(args.ref)
     print(reader.latest_date())
     del reader
-    exit()
+    # exit()
 
   writer = Writer(args.out)
   crawler = Crawler(docker=args.docker)
