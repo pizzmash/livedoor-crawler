@@ -4,6 +4,30 @@ SeleniumとChromeDriverでlivedoorNEWSから記事を持ってきてcsvに出力
 
 livedoorNEWSの各カテゴリについて，記事一覧ページ(最大300ページ)に乗っている各記事(最大300ページx20記事)を見に行く
 
+## Requires
+- Chrome
+- [Selenium](https://github.com/SeleniumHQ/Selenium)
+- [ChromeDriver](http://chromedriver.chromium.org/)
+
+## Install
+### Seleniumのインストール
+```
+pip install selenium
+```
+
+### ChromeDriverのインストール
+例えば
+```
+brew cask install chromedriver
+```
+とか，[ここ](http://chromedriver.chromium.org/downloads)から自分のChromeのバージョンに合ったやつを見つけてきて
+```
+curl -OL https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip chromedriver
+mv chromedriver /usr/bin/chromedriver
+```
+みたいな感じにやる
+
 ## Usage
 output.csvに出力
 ```
