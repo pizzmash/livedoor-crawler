@@ -1,4 +1,4 @@
-# scraping-livedoorNEWS
+# livedoor-crawler
 ## About
 SeleniumとChromeDriverでlivedoorNEWSから記事を持ってきてcsvに出力するやつ
 
