@@ -1,6 +1,18 @@
 # livedoor-crawler
 ## About
-SeleniumとChromeDriverでlivedoorNEWSから記事を持ってきてcsvに出力するやつ
+SeleniumとChromeDriverでlivedoorNEWSから要約のついた記事を持ってきて以下のカラムを持つcsvを出力するやつ
+- 記事URL
+- URLの中に含まれてるIDみたいなやつ
+- 年
+- 月
+- 日
+- 時
+- 分
+- 記事カテゴリ
+- 要約1文目
+- 要約２文目
+- 要約３文目
+- 記事本文
 
 livedoorNEWSの各カテゴリについて，記事一覧ページ(最大300ページ)に乗っている各記事(最大300ページx20記事)を見に行く
 
