@@ -9,6 +9,7 @@ SeleniumとChromeDriverでlivedoorNEWSから要約のついた記事を持って
 - 時
 - 分
 - 記事カテゴリ
+- 記事タイトル
 - 要約1文目
 - 要約２文目
 - 要約３文目
