@@ -31,6 +31,15 @@ class Crawler:
     pattern = '%Y年%m月%d日 %H時%M分'
     return datetime.strptime(jtime, pattern)
 
+  def get(self, driver, url):
+    try:
+      driver.get(url)
+      print("{}にアクセスしました".format(url))
+      return True
+    except Exception:
+      print("{}にアクセスを試みましたがタイムアウトしました".format(url))
+      return False
+
   def crawl(self, npages=300, date_tl=None, date_tl_cates=None, sleep_time=5):
     if date_tl or date_tl_cates:
       # カテゴリごとの完了したかのフラグ
@@ -58,8 +67,9 @@ class Crawler:
         # カテゴリcategoryのpageページ目のURL
         category_url = parse.urljoin(self.BASE, category+"/") + "?{}".format(params)
 
-        driver.get(category_url)
-        print("{}にアクセスしました".format(category_url))
+        if not self.get(dirver, category_url):
+          print()
+          continue
 
         articles = driver.find_elements_by_class_name("articleList")
         if not articles:
@@ -83,8 +93,9 @@ class Crawler:
           visited_ids.append(article_id)
 
           # 記事のページにアクセス
-          driver.get(article_url)
-          print("{}にアクセスしました".format(article_url))
+          if not self.get(driver, article_url):
+            print()
+            continue
 
           # 記事の時間の取得
           jtime = driver.find_elements_by_class_name("topicsTime")[0].text
@@ -124,8 +135,9 @@ class Crawler:
 
           # 実際の記事の内容が書いてあるページにアクセス
           more_url = more_button[0].find_elements_by_tag_name("a")[0].get_attribute("href")
-          driver.get(more_url)
-          print("{}にアクセスしました".format(more_url))
+          if not self.get(driver, more_url):
+            print()
+            continue
 
           # 記事本文の取得
           body = driver.find_elements_by_xpath("//span[@itemprop='articleBody']")
