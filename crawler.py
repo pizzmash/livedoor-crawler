@@ -67,7 +67,7 @@ class Crawler:
         # カテゴリcategoryのpageページ目のURL
         category_url = parse.urljoin(self.BASE, category+"/") + "?{}".format(params)
 
-        if not self.get(dirver, category_url):
+        if not self.get(driver, category_url):
           print()
           continue
 
