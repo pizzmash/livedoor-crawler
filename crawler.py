@@ -98,7 +98,11 @@ class Crawler:
             continue
 
           # 記事の時間の取得
-          jtime = driver.find_elements_by_class_name("topicsTime")[0].text
+          try:
+            jtime = driver.find_elements_by_class_name("topicsTime")[0].text
+          except IndexError:
+            print()
+            continue
           date = self.parse_time(jtime)
 
           # 指定した日時より古い記事だったらそのカテゴリは終わり
